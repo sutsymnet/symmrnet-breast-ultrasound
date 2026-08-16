@@ -216,3 +216,15 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Patient data (PDPA / EC compliance) — never commit ---
+ec_data/
+*.dcm
+*.dicom
+*.jpg
+*.jpeg
+*.png
+!assets/*.png
+
+# --- Keep model weights tracked (override any earlier rule) ---
+!*.h5
