@@ -10,7 +10,7 @@ University of Technology, Nakhon Ratchasima, Thailand,
 
 ## Deployed model (single source of truth)
 - Weights: `symmrnet_symlet2_3blocks.h5`
-- Parameters: 565,658
+- Document deployed model: SymMRNet-Sym2, 565,658 params
 - Input: 64 x 64 x 1 (grayscale)
 - Classes: 0 = benign, 1 = malignant (alphabetical order, as trained)
 - Test accuracy: 93.90%
