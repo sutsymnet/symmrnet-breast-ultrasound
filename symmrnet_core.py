@@ -43,7 +43,7 @@ EXPECTED_PARAM_COUNT = 565_658
 class Symlet2PoolingLayer(Layer):
     """
     Pure TensorFlow implementation of Symlet2 wavelet pooling.
-    FIXED: Uses VALID padding to match MaxPooling2D behavior exactly.
+    NOTE: VALID padding, matching the notebook's pooling behaviour
 
     NOTE FOR THE THESIS (do not change the code, change the text):
     This is a fixed Symlet-2-derived low-pass depthwise filter followed by ReLU
