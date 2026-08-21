@@ -34,6 +34,7 @@ from symmrnet_core import (
     decode_and_resize,
     load_symmrnet,
 )
+from input_gate import check_image_bytes
 
 MODEL_LABEL = "SymMRNet-Symlet2-3Blocks (Wavelet-Sym2, preprocessed)"
 TRAINING_SOURCE = "Kaggle: Ultrasound Breast Images for Breast Cancer (DS03.3)"
@@ -113,6 +114,18 @@ if uploaded is None:
     st.stop()
 
 image_bytes = uploaded.getvalue()
+
+needs_confirm, gate_msg, gate_info = check_image_bytes(image_bytes)
+if needs_confirm:
+    st.warning(gate_msg)
+    with st.expander("Technical detail"):
+        st.json(gate_info)
+    if not st.checkbox(
+        "ยืนยันว่าเป็นภาพ B-mode และต้องการดำเนินการต่อ",
+        key=f"confirm_{uploaded.name}",
+    ):
+        st.stop()
+    st.caption("⚠️ ผู้ใช้ยืนยันดำเนินการต่อ — ผลทำนายอาจคลาดเคลื่อน")
 
 col_left, col_right = st.columns([1, 1])
 
