@@ -89,7 +89,7 @@ with st.sidebar:
 
 
 # --------------------------------------------------------------- main panel
-st.title("🩺 Breast Ultrasound Classification — SymMRNet")
+st.title("🩺 Breast Ultrasound Classification - SymMRNet")
 
 try:
     model = get_model()
@@ -97,14 +97,14 @@ except Exception as exc:  # noqa: BLE001
     st.error(f"❌ Model failed to load: {exc}")
     st.info(
         f"`{MODEL_FILENAME}` must sit next to `streamlit_app.py` in the repo "
-        "root. There is deliberately no fallback model — serving a different "
+        "root. There is deliberately no fallback model - serving a different "
         "network than the one reported in the thesis would invalidate the "
         "results."
     )
     st.stop()
 
 st.success(
-    f"✅ Loaded `{MODEL_FILENAME}` — verified {EXPECTED_PARAM_COUNT:,} "
+    f"✅ Loaded `{MODEL_FILENAME}` - verified {EXPECTED_PARAM_COUNT:,} "
     f"parameters, input 64×64×1"
 )
 
@@ -129,7 +129,7 @@ if needs_confirm:
         key=f"confirm_{uploaded.name}",
     ):
         st.stop()
-    st.caption("⚠️ ผู้ใช้ยืนยันดำเนินการต่อ — ผลทำนายอาจคลาดเคลื่อน")
+    st.caption("⚠️ ผู้ใช้ยืนยันดำเนินการต่อ - ผลทำนายอาจคลาดเคลื่อน")
 
 col_left, col_right = st.columns([1, 1])
 
@@ -156,9 +156,9 @@ confidence = float(probs[pred_idx])
 with col_right:
     st.subheader("Result")
     if pred_idx == 1:
-        st.error(f"🔴 **{pred_label}** — {confidence:.1%} confidence")
+        st.error(f"🔴 **{pred_label}** - {confidence:.1%} confidence")
     else:
-        st.success(f"🟢 **{pred_label}** — {confidence:.1%} confidence")
+        st.success(f"🟢 **{pred_label}** - {confidence:.1%} confidence")
 
     st.write("**Class probabilities**")
     for name, p in zip(CLASS_NAMES, probs):
@@ -178,7 +178,7 @@ with col_right:
             "4. Single-level `pywt.dwt2(..., 'sym2', mode='symmetric')`\n"
             "5. Rescale sub-bands: cA×1.05, cH×1.02, cV×1.02, cD×1.01\n"
             "6. `pywt.idwt2` reconstruction, crop/pad to 64×64, clip to [0, 1]\n\n"
-            "No CLAHE, no histogram equalisation, no augmentation — matching "
+            "No CLAHE, no histogram equalisation, no augmentation - matching "
             "the training pipeline exactly."
         )
 
@@ -186,7 +186,7 @@ st.divider()
 st.caption(
     "SymMRNet = Symlet Multi-Resolution Network. Wavelet pooling here is a "
     "fixed Symlet-2-derived low-pass depthwise filter followed by ReLU and "
-    "2×2 average pooling — an approximation of the LL sub-band rather than a "
+    "2×2 average pooling - an approximation of the LL sub-band rather than a "
     "full separable DWT."
 )
 
