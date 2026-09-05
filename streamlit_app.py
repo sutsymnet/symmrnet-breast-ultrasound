@@ -23,6 +23,7 @@ requirements.txt: streamlit, tensorflow, PyWavelets, numpy, pillow
 """
 
 import numpy as np
+import requests
 import streamlit as st
 from PIL import Image
 
@@ -37,16 +38,35 @@ from symmrnet_core import (
 from input_gate import check_image_bytes
 
 APP_VERSION = "v1.0-thesis"
-COMMIT_SHA  = "d803278"
-BUILD_DATE  = "2026-09-05"
+REPO_SLUG = "sutsymnet/symmrnet-breast-ultrasound"
+REPO_URL = f"https://github.com/{REPO_SLUG}"
 
+@st.cache_data(ttl=3600, show_spinner=False)
+
+def get_live_commit():
+    """Fetch the current HEAD of main from the GitHub API.
+    Cached for one hour so the unauthenticated rate limit (60 req/h per IP)
+    is never a concern. Returns (short_sha, iso_date) or a safe fallback so
+    the footer can never crash the app.
+    """
+    try:
+        resp = requests.get(
+            f"https://api.github.com/repos/{REPO_SLUG}/commits/main",
+            headers={"Accept": "application/vnd.github+json"},
+            timeout=5,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        return data["sha"][:7], data["commit"]["committer"]["date"][:10]
+    except Exception:  # noqa: BLE001
+        return None, None
+      
 MODEL_LABEL = "SymMRNet-Symlet2-3Blocks (Wavelet-Sym2, preprocessed)"
 TRAINING_SOURCE = "Kaggle: Ultrasound Breast Images for Breast Cancer (DS03.3)"
 REPORTED_TEST_ACC = "93.90% (902 held-out images)"
 
 st.set_page_config(page_title="SymMRNet Breast Ultrasound", page_icon="🩺",
                    layout="wide")
-
 
 @st.cache_resource
 def get_model():
@@ -190,7 +210,11 @@ st.caption(
     "full separable DWT."
 )
 
-st.caption(
-    f"SymMRNet-Sym2 · {APP_VERSION} · commit `{COMMIT_SHA}` · {BUILD_DATE} "
-    "· [Source](https://github.com/sutsymnet/symmrnet-breast-ultrasound)"
-)
+_sha, _date = get_live_commit()
+if _sha:
+    st.caption(
+        f"SymMRNet-Sym2 · {APP_VERSION} · commit "
+        f"[`{_sha}`]({REPO_URL}/commit/{_sha}) · {_date} · [Source]({REPO_URL})"
+    )
+else:
+    st.caption(f"SymMRNet-Sym2 · {APP_VERSION} · [Source]({REPO_URL})")
