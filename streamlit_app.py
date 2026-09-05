@@ -36,6 +36,10 @@ from symmrnet_core import (
 )
 from input_gate import check_image_bytes
 
+APP_VERSION = "v1.0-thesis"
+COMMIT_SHA  = "d803278"
+BUILD_DATE  = "2026-09-05"
+
 MODEL_LABEL = "SymMRNet-Symlet2-3Blocks (Wavelet-Sym2, preprocessed)"
 TRAINING_SOURCE = "Kaggle: Ultrasound Breast Images for Breast Cancer (DS03.3)"
 REPORTED_TEST_ACC = "93.90% (902 held-out images)"
@@ -184,4 +188,9 @@ st.caption(
     "fixed Symlet-2-derived low-pass depthwise filter followed by ReLU and "
     "2×2 average pooling — an approximation of the LL sub-band rather than a "
     "full separable DWT."
+)
+
+st.caption(
+    f"SymMRNet-Sym2 · {APP_VERSION} · commit `{COMMIT_SHA}` · {BUILD_DATE} "
+    "· [Source](https://github.com/sutsymnet/symmrnet-breast-ultrasound)"
 )
