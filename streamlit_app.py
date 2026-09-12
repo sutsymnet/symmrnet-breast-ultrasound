@@ -171,16 +171,17 @@ with st.spinner("Running SymMRNet…"):
 
 pred_idx = int(np.argmax(probs))
 pred_label = CLASS_NAMES[pred_idx].capitalize()
-confidence = float(probs[pred_idx])
+score = float(probs[pred_idx])
 
 with col_right:
     st.subheader("Result")
     if pred_idx == 1:
-        st.error(f"🔴 **{pred_label}** - {confidence:.1%} confidence")
+        st.error(f"🔴 **{pred_label}**")
     else:
-        st.success(f"🟢 **{pred_label}** - {confidence:.1%} confidence")
-
-    st.write("**Class probabilities**")
+        st.success(f"🟢 **{pred_label}**")
+    st.markdown(f"Model score (uncalibrated) : {score:.4%}")
+  
+    st.write("**Research model output**")
     for name, p in zip(CLASS_NAMES, probs):
         st.progress(float(p), text=f"{name.capitalize()}: {p:.4f}")
 
@@ -188,6 +189,11 @@ with col_right:
         "Decision rule: argmax over the softmax output (equivalent to a 0.50 "
         "threshold), identical to the protocol used for the reported "
         "93.90% test accuracy. No per-image threshold tuning is applied."
+    )
+    st.caption(
+        "Scores are uncalibrated (ECE = 0.178 on the institutional"
+        "test set) and must not be read as diagnostic probability. Research"
+        "prototype — not for clinical use."
     )
 
     with st.expander("Preprocessing applied to this image"):
