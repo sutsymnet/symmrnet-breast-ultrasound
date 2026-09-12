@@ -216,11 +216,9 @@ st.caption(
     "full separable DWT."
 )
 
-_sha, _date = get_live_commit()
-if _sha:
-    st.caption(
-        f"SymMRNet-Sym2 · {APP_VERSION} · commit "
-        f"[`{_sha}`]({REPO_URL}/commit/{_sha}) · {_date} · [Source]({REPO_URL})"
-    )
-else:
-    st.caption(f"SymMRNet-Sym2 · {APP_VERSION} · [Source]({REPO_URL})")
+st.caption(
+    "SymMRNet-Sym2 · display build `v1.1-display` · "
+    "evaluated build `v1.0-thesis` "
+    "(commit `7a2cf8c2ee885014d0af1fa45af8820630730d28`) · "
+    "[Source](https://github.com/sutsymnet/symmrnet-breast-ultrasound)"
+)
