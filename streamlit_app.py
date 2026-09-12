@@ -179,7 +179,7 @@ with col_right:
         st.error(f"🔴 **{pred_label}**")
     else:
         st.success(f"🟢 **{pred_label}**")
-    st.markdown(f"Model score (uncalibrated) : {score:.4%}")
+    st.markdown(f"Model score (uncalibrated): {score:.4f}")
   
     st.write("**Research model output**")
     for name, p in zip(CLASS_NAMES, probs):
@@ -191,9 +191,9 @@ with col_right:
         "93.90% test accuracy. No per-image threshold tuning is applied."
     )
     st.caption(
-        "Scores are uncalibrated (ECE = 0.178 on the institutional"
-        "test set) and must not be read as diagnostic probability. Research"
-        "prototype — not for clinical use."
+        "Scores are uncalibrated (ECE = 0.178 on the institutional test set, "
+        "n = 236) and must not be read as diagnostic probability. "
+        "Research prototype - not for clinical use."
     )
 
     with st.expander("Preprocessing applied to this image"):
